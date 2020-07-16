@@ -219,12 +219,41 @@ if [ -f /opt/uptime360/agent.sh ]; then
 	userdel uptime360agent >> $LOG 2>&1
 fi
 
-### Install ###
-mkdir -p /opt/uptime360 >> $LOG 2>&1
-wget -O /opt/uptime360/agent.sh $2/assets/agent.sh >> $LOG 2>&1
+# Check if the system can establish SSL connection
+if curl --output /dev/null --silent --head --fail "https://hop.ut360.net"; then
+	### Install ###
+	mkdir -p /opt/uptime360 >> $LOG 2>&1
+	wget -O /opt/uptime360/agent.sh $2/assets/agent.sh >> $LOG 2>&1
 
-echo "$1" > /opt/uptime360/serverkey
-echo "https://hop.ut360.net/agent.php" > /opt/uptime360/gateway
+	echo "$1" > /opt/uptime360/serverkey
+	echo "https://hop.ut360.net/agent.php" > /opt/uptime360/gateway
+        "SSL Connection Established..." >> $LOG 2>$1
+else
+	echo " "
+	echo "========== Sorry! Cannot install Uptime360 Agent :( =========="
+	echo " "
+	echo "Maybe you are using old OS which cannot establish SSL connection."
+	echo "But still if you want to continue monitoring then your system data"
+	echo "will be sent to Uptime360 using HTTP protocol."
+	echo " "
+	read -n 1 -p "Do you want to continue? [Y/n] " reply;
+	if [ ! "$reply" = "${reply#[Nn]}" ]; then
+	   ### Install ###
+	   mkdir -p /opt/uptime360 >> $LOG 2>&1
+	   wget -O /opt/uptime360/agent.sh http://hop.ut360.net/assets/agent.sh >> $LOG 2>&1
+	   echo "$1" > /opt/uptime360/serverkey
+	   echo "http://hop.ut360.net/agent.php" > /opt/uptime360/gateway
+	   echo ""
+	   echo ""
+	   echo "Terminated Uptime360 agent installation."
+	   echo "If you think its an error contact support."
+	   echo ""
+	   echo ""
+	   exit 1;
+	fi
+	echo ""
+	echo "Continuing installtion with HTTP protocol..."
+fi
 
 # Did it download ?
 if ! [ -f /opt/uptime360/agent.sh ]; then
