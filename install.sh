@@ -250,10 +250,10 @@ else
 	echo "Continuing installtion with HTTP protocol..."
 	echo ""
 	### Install ###
-	mkdir -p /opt/uptime360 >> $LOG 2>&1
-	wget -O /opt/uptime360/agent.sh http://hop.ut360.net/assets/agent.sh >> $LOG 2>&1
-	echo "$1" > /opt/uptime360/serverkey
-	echo "http://hop.ut360.net/agent.php" > /opt/uptime360/gateway
+        mkdir -p /opt/uptime360
+        wget -O /opt/uptime360/agent.sh http://hop.ut360.net/assets/agent.sh
+        echo "$1" > /opt/uptime360/serverkey
+        echo "http://hop.ut360.net/agent.php" > /opt/uptime360/gateway
 fi
 
 # Did it download ?
