@@ -238,11 +238,6 @@ else
 	echo " "
 	read -n 1 -p "Do you want to continue? [Y/n] " reply;
 	if [ ! "$reply" = "${reply#[Nn]}" ]; then
-	   ### Install ###
-	   mkdir -p /opt/uptime360 >> $LOG 2>&1
-	   wget -O /opt/uptime360/agent.sh http://hop.ut360.net/assets/agent.sh >> $LOG 2>&1
-	   echo "$1" > /opt/uptime360/serverkey
-	   echo "http://hop.ut360.net/agent.php" > /opt/uptime360/gateway
 	   echo ""
 	   echo ""
 	   echo "Terminated Uptime360 agent installation."
@@ -253,6 +248,12 @@ else
 	fi
 	echo ""
 	echo "Continuing installtion with HTTP protocol..."
+	echo ""
+	### Install ###
+	mkdir -p /opt/uptime360 >> $LOG 2>&1
+	wget -O /opt/uptime360/agent.sh http://hop.ut360.net/assets/agent.sh >> $LOG 2>&1
+	echo "$1" > /opt/uptime360/serverkey
+	echo "http://hop.ut360.net/agent.php" > /opt/uptime360/gateway
 fi
 
 # Did it download ?
