@@ -2,7 +2,7 @@
 #
 #////////////////////////////////////////////////////////////
 #===========================================================
-# uptime360 - Installer v1.0
+# Uptime360 - Installer v1.1
 #===========================================================
 # Set environment
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
@@ -230,7 +230,7 @@ if curl --output /dev/null --silent --head --fail "https://hop.ut360.net"; then
         "SSL Connection Established..." >> $LOG 2>$1
 else
 	echo " "
-	echo "========== Sorry! Cannot install Uptime360 Agent :( =========="
+	echo "==========:( Sorry! Cannot install Uptime360 Agent :(=========="
 	echo " "
 	echo "Maybe you are using old OS which cannot establish SSL connection."
 	echo "But still if you want to continue monitoring then your system data"
@@ -291,13 +291,7 @@ echo "-------------------------------------"
 echo "rm -rf /opt/uptime360 && crontab -r -u uptime360agent >> /tmp/uptime360.log 2>&1 && userdel uptime360agent >> /tmp/uptime360.log 2>&1"
 echo "-------------------------------------"
 echo " "
-echo " "
-echo "========== Basic Debugging =========="
-echo " "
-echo "If you are using CentOS 6 or CentOS 5 then it may not send data to Uptime360."
-echo "Try updating your server with just 'yum update' and re-install Uptime360 agent."
-echo "If still the problem persists, talk to the support agent on Live Chat."
-echo " "
+echo "www.uptime360.net"
 echo "Thank you for choosing Uptime360!"
 
 # Attempt to delete this installer
