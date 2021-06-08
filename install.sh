@@ -98,16 +98,22 @@ if [ -n "$(command -v apt-get)" ]; then
 
 	# Check if perl available or not
 	if ! type "perl" >> $LOG 2>&1; then
+	  echo -ne '>>>>>>>                   [40%]\r'
+		sleep 1
 		apt-get install -y perl >> $LOG 2>&1
 	fi
 
 	# Check if unzip available or not
 	if ! type "unzip" >> $LOG 2>&1; then
+	  echo -ne '>>>>>>>>>>>>>>            [60%]\r'
+		sleep 1
 		apt-get install -y unzip >> $LOG 2>&1
 	fi
 
 	# Check if curl available or not
 	if ! type "curl" >> $LOG 2>&1; then
+	  echo -ne '>>>>>>>>>>>>>>>>>>>>>>>   [80%]\r'
+	  sleep 1
 		apt-get install -y curl >> $LOG 2>&1
 	fi
 fi
