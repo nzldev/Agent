@@ -67,24 +67,25 @@ if [ -n "$(command -v yum)" ]; then
 	service crond start >> $LOG 2>&1
 	chkconfig crond on >> $LOG 2>&1
 
+	echo -ne '>>>>>>>                   [40%]\r'
+	sleep 1
+
 	# Check if perl available or not
 	if ! type "perl" >> $LOG 2>&1; then
 		yum -y install perl >> $LOG 2>&1
-		echo -ne '>>>>>>>                   [40%]\r'
-		sleep 1
 	fi
 
+	echo -ne '>>>>>>>>>>>>>>            [60%]\r'
+	sleep 1
 	# Check if unzip available or not
 	if ! type "unzip" >> $LOG 2>&1; then
-	  echo -ne '>>>>>>>>>>>>>>            [60%]\r'
-		sleep 1
 		yum -y install unzip >> $LOG 2>&1
 	fi
 
+	echo -ne '>>>>>>>>>>>>>>>>>>>>>>>   [80%]\r'
+  sleep 1
 	# Check if curl available or not
 	if ! type "curl" >> $LOG 2>&1; then
-	  echo -ne '>>>>>>>>>>>>>>>>>>>>>>>   [80%]\r'
-	  sleep 1
 		yum -y install curl >> $LOG 2>&1
 	fi
 fi
@@ -98,24 +99,24 @@ if [ -n "$(command -v apt-get)" ]; then
 
 	# Check if perl available or not
 	if ! type "perl" >> $LOG 2>&1; then
-	  echo -ne '>>>>>>>                   [40%]\r'
-		sleep 1
 		apt-get install -y perl >> $LOG 2>&1
 	fi
+	echo -ne '>>>>>>>                   [40%]\r'
+	sleep 1
 
 	# Check if unzip available or not
 	if ! type "unzip" >> $LOG 2>&1; then
-	  echo -ne '>>>>>>>>>>>>>>            [60%]\r'
-		sleep 1
 		apt-get install -y unzip >> $LOG 2>&1
 	fi
+	echo -ne '>>>>>>>>>>>>>>            [60%]\r'
+	sleep 1
 
 	# Check if curl available or not
 	if ! type "curl" >> $LOG 2>&1; then
-	  echo -ne '>>>>>>>>>>>>>>>>>>>>>>>   [80%]\r'
-	  sleep 1
 		apt-get install -y curl >> $LOG 2>&1
 	fi
+	echo -ne '>>>>>>>>>>>>>>>>>>>>>>>   [80%]\r'
+	sleep 1
 fi
 
 # ArchLinux
