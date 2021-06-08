@@ -11,6 +11,7 @@ PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 # Clear the screen
 clear
 
+
 #SERVERKEY=$1
 #GATEWAY=$2
 LOG=/tmp/uptime360.log
@@ -60,28 +61,37 @@ echo "${blue}Installing Dependencies${normal}"
 
 # RHEL / CentOS / etc
 if [ -n "$(command -v yum)" ]; then
+  echo -ne '>>>                       [20%]\r'
 	yum -y install cronie gzip curl >> $LOG 2>&1
+	sleep 1
 	service crond start >> $LOG 2>&1
 	chkconfig crond on >> $LOG 2>&1
 
 	# Check if perl available or not
 	if ! type "perl" >> $LOG 2>&1; then
 		yum -y install perl >> $LOG 2>&1
+		echo -ne '>>>>>>>                   [40%]\r'
+		sleep 1
 	fi
 
 	# Check if unzip available or not
 	if ! type "unzip" >> $LOG 2>&1; then
+	  echo -ne '>>>>>>>>>>>>>>            [60%]\r'
+		sleep 1
 		yum -y install unzip >> $LOG 2>&1
 	fi
 
 	# Check if curl available or not
 	if ! type "curl" >> $LOG 2>&1; then
+	  echo -ne '>>>>>>>>>>>>>>>>>>>>>>>   [80%]\r'
+	  sleep 1
 		yum -y install curl >> $LOG 2>&1
 	fi
 fi
 
 # Debian / Ubuntu
 if [ -n "$(command -v apt-get)" ]; then
+  echo -ne '>>>                       [20%]\r'
 	apt-get update -y >> $LOG 2>&1
 	apt-get install -y cron curl gzip >> $LOG 2>&1
 	service cron start >> $LOG 2>&1
@@ -299,6 +309,8 @@ chown -R uptime360agent:uptime360agent /opt/uptime360 && chmod -R 700 /opt/uptim
 # Configure cron
 crontab -u uptime360agent -l 2>/dev/null | { cat; echo "* * * * * bash /opt/uptime360/agent.sh > /opt/uptime360/cron.log 2>&1"; } | crontab -u uptime360agent -
 
+echo -ne '>>>>>>>>>>>>>>>>>>>>>>>>>>[100%]\r'
+echo -ne '\n'
 
 echo " "
 echo "${green}-------------------------------------"
