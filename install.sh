@@ -263,6 +263,7 @@ if curl --output /dev/null --silent --head --fail "https://hop.ut360.net"; then
 	### Install ###
 	sleep 2
 	mkdir -p /opt/uptime360 >> $LOG 2>&1
+	echo "=================="
 	wget -O /opt/uptime360/agent.sh https://hop.ut360.net/assets/agent.sh >> $LOG 2>&1
   sleep 1
 	echo "${gray}$1${normal}" > /opt/uptime360/serverkey
