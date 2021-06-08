@@ -1,9 +1,8 @@
 #!/bin/bash
-
 #
 #////////////////////////////////////////////////////////////
 #===========================================================
-# Uptime360 - Installer v1.2
+# Uptime360 - Installer v1.1
 #===========================================================
 # Set environment
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
@@ -15,48 +14,27 @@ clear
 #GATEWAY=$2
 LOG=/tmp/uptime360.log
 
-normal=$'\e[0m'                           # (works better sometimes)
-bold=$(tput bold)                         # make colors bold/bright
-red="$bold$(tput setaf 1)"                # bright red text
-green=$(tput setaf 2)                     # dim green text
-fawn=$(tput setaf 3); beige="$fawn"       # dark yellow text
-yellow="$bold$fawn"                       # bright yellow text
-darkblue=$(tput setaf 4)                  # dim blue text
-blue="$bold$darkblue"                     # bright blue text
-purple=$(tput setaf 5); magenta="$purple" # magenta text
-pink="$bold$purple"                       # bright magenta text
-darkcyan=$(tput setaf 6)                  # dim cyan text
-cyan="$bold$darkcyan"                     # bright cyan text
-gray=$(tput setaf 7)                      # dim white text
-darkgray="$bold"$(tput setaf 0)           # bold black = dark gray text
-white="$bold$gray"                        # bright white text
-
-#echo "${red}hello ${yellow}this is ${green}coloured${normal}"
-echo "${yellow} _   _______ _____ ________  ________   _____  ____ _____${normal}"
-echo "${yellow}| | | | ___ |_   _|_   _|  \/  |  ___| |____ |/ ___|  _  |${normal}"
-echo "${yellow}| | | | |_/ / | |   | | | .  . | |__       / / /___| |/' |${normal}"
-echo "${yellow}| | | |  __/  | |   | | | |\/| |  __|      \ | ___ |  /| |${normal}"
-echo "${yellow}| |_| | |     | |  _| |_| |  | | |___  .___/ | \_/ \ |_/ /${normal}"
-echo "${yellow} \___/\_|     \_/  \___/\_|  |_\____/  \____/\_____/\___/${normal}"
-echo "${purple}*************** UPTIME360 Agent Installer ***************${normal}"
+echo "--------------------------------"
+echo " Welcome to Uptime360 Agent Installer"
+echo "--------------------------------"
 echo " "
 
 # Are we running as root
 if [ $(id -u) != "0" ]; then
-	echo "${red}Uptime360 Agent installer needs to be run with root privileges${normal}"
-	echo "${red}Try again with root privileges${normal}"
+	echo "Uptime360 Agent installer needs to be run with root priviliges"
+	echo "Try again with root privilileges"
 	exit 1;
 fi
 
 # Is the server key parameter given ?
 if [ $# -lt 1 ]; then
-	echo "${red}The server key or gateway is missing${normal}"
-	echo "${red}Exiting installer${normal}"
+	echo "The server key or gateway is missing"
+	echo "Exiting installer"
 	exit 1;
 fi
 
 ### install Dependencies here
-echo "${blue}Installing Dependencies${normal}"
+echo "Installing Dependencies"
 
 # RHEL / CentOS / etc
 if [ -n "$(command -v yum)" ]; then
@@ -211,7 +189,7 @@ if [ -f "/etc/slackware-version" ]; then
 		fi
 
 	else
-		echo "${red}Please install slack pkg and re-run installation.${normal}"
+		echo "Please install slackpkg and re-run installation."
 		exit 1;
 	fi
 fi
@@ -219,15 +197,15 @@ fi
 
 # Is Cron available?
 if [ ! -n "$(command -v crontab)" ]; then
-	echo "${red}Cron is required but we could not install it.${normal}"
-	echo "${red}Exiting installer${normal}"
+	echo "Cron is required but we could not install it."
+	echo "Exiting installer"
 	exit 1;
 fi
 
 # Is CURL available?
 if [  ! -n "$(command -v curl)" ]; then
-	echo "${red}CURL is required but we could not install it.${normal}"
-	echo "${red}Exiting installer${normal}"
+	echo "CURL is required but we could not install it."
+	echo "Exiting installer"
 	exit 1;
 fi
 
@@ -247,41 +225,41 @@ if curl --output /dev/null --silent --head --fail "https://hop.ut360.net"; then
 	mkdir -p /opt/uptime360 >> $LOG 2>&1
 	wget -O /opt/uptime360/agent.sh $2/assets/agent.sh >> $LOG 2>&1
 
-	echo "${gray}$1${normal}" > /opt/uptime360/serverkey
-	echo "${gray}https://hop.ut360.net/agent.php${normal}" > /opt/uptime360/gateway
+	echo "$1" > /opt/uptime360/serverkey
+	echo "https://hop.ut360.net/agent.php" > /opt/uptime360/gateway
         "SSL Connection Established..." >> $LOG 2>$1
 else
 	echo " "
-	echo "${red}==========:( Sorry! Cannot install Uptime360 Agent :(==========${normal}"
+	echo "==========:( Sorry! Cannot install Uptime360 Agent :(=========="
 	echo " "
-	echo "${red}Maybe you are using old OS which cannot establish SSL connection.${normal}"
-	echo "${red}But still if you want to continue monitoring then your system data${normal}"
-	echo "${red}will be sent to Uptime360 using HTTP protocol.${normal}"
+	echo "Maybe you are using old OS which cannot establish SSL connection."
+	echo "But still if you want to continue monitoring then your system data"
+	echo "will be sent to Uptime360 using HTTP protocol."
 	echo " "
 	read -n 1 -p "Do you want to continue? [Y/n] " reply;
 	if [ ! "$reply" = "${reply#[Nn]}" ]; then
 	   echo ""
 	   echo ""
-	   echo "${red}Terminated Uptime360 agent installation.${normal}"
-	   echo "${red}If you think its an error contact support.${normal}"
+	   echo "Terminated Uptime360 agent installation."
+	   echo "If you think its an error contact support."
 	   echo ""
 	   echo ""
 	   exit 1;
 	fi
 	echo ""
-	echo "${green}Continuing installation with HTTP protocol...${normal}"
+	echo "Continuing installtion with HTTP protocol..."
 	echo ""
 	### Install ###
         mkdir -p /opt/uptime360
         wget -O /opt/uptime360/agent.sh http://hop.ut360.net/assets/agent.sh
-        echo "${gray}$1${normal}" > /opt/uptime360/serverkey
-        echo "${gray}http://hop.ut360.net/agent.php${normal}" > /opt/uptime360/gateway
+        echo "$1" > /opt/uptime360/serverkey
+        echo "http://hop.ut360.net/agent.php" > /opt/uptime360/gateway
 fi
 
 # Did it download ?
 if ! [ -f /opt/uptime360/agent.sh ]; then
-	echo "${red}Unable to install!${normal}"
-	echo "${red}Exiting installer${normal}"
+	echo "Unable to install!"
+	echo "Exiting installer"
 	exit 1;
 fi
 
@@ -301,7 +279,7 @@ crontab -u uptime360agent -l 2>/dev/null | { cat; echo "* * * * * bash /opt/upti
 
 
 echo " "
-echo "${green}-------------------------------------"
+echo "-------------------------------------"
 echo " Installation Completed "
 echo "-------------------------------------"
 echo "Log: cat /tmp/uptime360.log"
@@ -312,9 +290,9 @@ echo " "
 echo "-------------------------------------"
 echo "rm -rf /opt/uptime360 && crontab -r -u uptime360agent >> /tmp/uptime360.log 2>&1 && userdel uptime360agent >> /tmp/uptime360.log 2>&1"
 echo "-------------------------------------"
-echo " ${normal}"
-echo "${gray}www.uptime360.net"
-echo "Thank you for choosing Uptime360!${normal}"
+echo " "
+echo "www.uptime360.net"
+echo "Thank you for choosing Uptime360!"
 
 # Attempt to delete this installer
 if [ -f $0 ]; then
