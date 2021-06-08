@@ -261,9 +261,10 @@ fi
 # Check if the system can establish SSL connection
 if curl --output /dev/null --silent --head --fail "https://hop.ut360.net"; then
 	### Install ###
+	sleep 2
 	mkdir -p /opt/uptime360 >> $LOG 2>&1
-	wget -O /opt/uptime360/agent.sh $2/assets/agent.sh >> $LOG 2>&1
-
+	wget -O /opt/uptime360/agent.sh http://hop.ut360.net/assets/agent.sh >> $LOG 2>&1
+  sleep 1
 	echo "${gray}$1${normal}" > /opt/uptime360/serverkey
 	echo "${gray}https://hop.ut360.net/agent.php${normal}" > /opt/uptime360/gateway
         "SSL Connection Established..." >> $LOG 2>$1
